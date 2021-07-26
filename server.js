@@ -11,14 +11,22 @@
       db => console.log('base de datos formulario conectada')
     ).catch(err=>console.log (err))
       
+      //importar rutas
+      const indexroute = require('./src/routes/index');
 
-      app.use(morgan('dev'));
+      //que nuestro servidor escoja el puerto en el que corra en caso de que no, se ejecuta en el puerton 3000
+       app.set ('port', process.env.PORT || 4050); 
+       app.set('views',path.join(__dirname + '/views')); //carpeta de vistas
+       app.set('view engine', 'ejs') //busca arch ejs
 
-      app.use(express.urlencoded({extended: false})); //reconoce el formulario
+       //midelwares
+       app.use(morgan('dev'));
+       app.use(express.urlencoded({extended: false})); //reconoce el formulario formato json
 
+      //routes
+      app.use('/', indexroute);
 
-    //que nuestro servidor escoja el puerto en el que corra en caso de que no, se ejecuta en el puerton 3000
-    app.set ('port', process.env.PORT || 8080); 
+    
     app.listen (app.get ('port') , ()=>{
       console.log (`servidor en puerto: ${app.get('port')}`);
     });
